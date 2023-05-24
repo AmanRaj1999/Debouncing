@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Debouncing Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+
+      #search-input {
+        padding: 10px;
+        font-size: 16px;
+        width: 300px;
+      }
+
+      #search-results {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 10px;
+      }
+
+      #search-results li {
+        padding: 5px 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      #search-results li:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="search-input" placeholder="Search..." />
+    <ul id="search-results"></ul>
+
+    <script>
+      // Debounce function
+      function debounce(func, delay) {
+        let timer;
+        return function () {
+          const context = this;
+          const args = arguments;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            func.apply(context, args);
+          }, delay);
+        };
+      }
+
+      // Function to perform the search
+      function performSearch(event) {
+        const searchTerm = event.target.value;
+        const searchResults = document.getElementById("search-results");
+
+        // Perform the search logic here
+        // For simplicity, let's just display the search term in the results list
+        searchResults.innerHTML = `<li>${searchTerm}</li>`;
+      }
+
+      // Attach the debounced function to the input event
+      const searchInput = document.getElementById("search-input");
+      const debouncedSearch = debounce(performSearch, 300);
+
+      searchInput.addEventListener("input", debouncedSearch);
+    </script>
+  </body>
+</html>
